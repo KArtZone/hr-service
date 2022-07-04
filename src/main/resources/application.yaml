@@ -1,0 +1,32 @@
+server:
+  port: 8083
+spring:
+  application:
+    name: hr
+  datasource:
+    url: jdbc:postgresql://localhost:5432/hr
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+    show-sql: true
+    hibernate:
+      ddl-auto: none
+    open-in-view: false
+  cloud:
+    function:
+      definition: saveUser; openUser
+    stream:
+      bindings:
+        saveUser-in-0:
+          destination: front.user.save
+          group: hr
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info, prometheus
